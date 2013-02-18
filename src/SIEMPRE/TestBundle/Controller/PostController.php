@@ -2,7 +2,6 @@
 
 namespace SIEMPRE\TestBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -79,14 +78,15 @@ class PostController extends Controller
      * Creates a new Post entity.
      *
      * @Route("/create", name="post_create")
-     * @Method("POST")
+     * @Method("post")
      * @Template("SIEMPRETestBundle:Post:new.html.twig")
      */
-    public function createAction(Request $request)
+    public function createAction()
     {
         $entity  = new Post();
-        $form = $this->createForm(new PostType(), $entity);
-        $form->bind($request);
+        $request = $this->getRequest();
+        $form    = $this->createForm(new PostType(), $entity);
+        $form->bindRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -132,10 +132,10 @@ class PostController extends Controller
      * Edits an existing Post entity.
      *
      * @Route("/{id}/update", name="post_update")
-     * @Method("POST")
+     * @Method("post")
      * @Template("SIEMPRETestBundle:Post:edit.html.twig")
      */
-    public function updateAction(Request $request, $id)
+    public function updateAction($id)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -145,9 +145,12 @@ class PostController extends Controller
             throw $this->createNotFoundException('Unable to find Post entity.');
         }
 
+        $editForm   = $this->createForm(new PostType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new PostType(), $entity);
-        $editForm->bind($request);
+
+        $request = $this->getRequest();
+
+        $editForm->bindRequest($request);
 
         if ($editForm->isValid()) {
             $em->persist($entity);
@@ -167,12 +170,14 @@ class PostController extends Controller
      * Deletes a Post entity.
      *
      * @Route("/{id}/delete", name="post_delete")
-     * @Method("POST")
+     * @Method("post")
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($id)
     {
         $form = $this->createDeleteForm($id);
-        $form->bind($request);
+        $request = $this->getRequest();
+
+        $form->bindRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();

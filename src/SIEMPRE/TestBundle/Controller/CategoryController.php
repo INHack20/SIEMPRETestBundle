@@ -2,14 +2,13 @@
 
 namespace SIEMPRE\TestBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use SIEMPRE\TestBundle\Entity\Category;
 use SIEMPRE\TestBundle\Form\CategoryType;
-
+use SIEMPRE\TestBundle\Model\Message;
 /**
  * Category controller.
  *
@@ -79,14 +78,15 @@ class CategoryController extends Controller
      * Creates a new Category entity.
      *
      * @Route("/create", name="category_create")
-     * @Method("POST")
+     * @Method("post")
      * @Template("SIEMPRETestBundle:Category:new.html.twig")
      */
-    public function createAction(Request $request)
+    public function createAction()
     {
         $entity  = new Category();
-        $form = $this->createForm(new CategoryType(), $entity);
-        $form->bind($request);
+        $request = $this->getRequest();
+        $form    = $this->createForm(new CategoryType(), $entity);
+        $form->bindRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -132,10 +132,10 @@ class CategoryController extends Controller
      * Edits an existing Category entity.
      *
      * @Route("/{id}/update", name="category_update")
-     * @Method("POST")
+     * @Method("post")
      * @Template("SIEMPRETestBundle:Category:edit.html.twig")
      */
-    public function updateAction(Request $request, $id)
+    public function updateAction($id)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -145,17 +145,23 @@ class CategoryController extends Controller
             throw $this->createNotFoundException('Unable to find Category entity.');
         }
 
+        $editForm   = $this->createForm(new CategoryType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new CategoryType(), $entity);
-        $editForm->bind($request);
+
+        $request = $this->getRequest();
+
+        $editForm->bindRequest($request);
 
         if ($editForm->isValid()) {
             $em->persist($entity);
             $em->flush();
-
+            
+            $this->get('session')->setFlash('message','Actualizacion Correcta');
+            $this->get('session')->setFlash('type',  Message::TYPE_SUCCESS);
             return $this->redirect($this->generateUrl('category_edit', array('id' => $id)));
         }
-
+        $this->get('session')->setFlash('message','Actualizacion Correcta');
+        $this->get('session')->setFlash('type',  Message::TYPE_SUCCESS);
         return array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
@@ -167,12 +173,14 @@ class CategoryController extends Controller
      * Deletes a Category entity.
      *
      * @Route("/{id}/delete", name="category_delete")
-     * @Method("POST")
+     * @Method("post")
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($id)
     {
         $form = $this->createDeleteForm($id);
-        $form->bind($request);
+        $request = $this->getRequest();
+
+        $form->bindRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();

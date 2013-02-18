@@ -19,7 +19,7 @@ class CategoryControllerTest extends WebTestCase
 
         // Fill in the form and submit it
         $form = $crawler->selectButton('Create')->form(array(
-            'siempre_testbundle_categorytype[field_name]'  => 'Test',
+            'category[field_name]'  => 'Test',
             // ... other fields to fill
         ));
 
@@ -33,7 +33,7 @@ class CategoryControllerTest extends WebTestCase
         $crawler = $client->click($crawler->selectLink('Edit')->link());
 
         $form = $crawler->selectButton('Edit')->form(array(
-            'siempre_testbundle_categorytype[field_name]'  => 'Foo',
+            'category[field_name]'  => 'Foo',
             // ... other fields to fill
         ));
 
@@ -50,6 +50,5 @@ class CategoryControllerTest extends WebTestCase
         // Check the entity has been delete on the list
         $this->assertNotRegExp('/Foo/', $client->getResponse()->getContent());
     }
-
     */
 }

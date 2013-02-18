@@ -1,7 +1,7 @@
 # Bootstrap
 app/bootstrap*
 
-#web/bundles/
+web/bundles/
 app/cache/*
 app/logs/*
 build/

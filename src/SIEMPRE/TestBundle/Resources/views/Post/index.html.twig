@@ -1,12 +1,15 @@
-<h1>Post list</h1>
+{% extends 'ToaTwitterBootstrapBundle::layout.html.twig' %}
+{% block content %}
 
-<table class="records_list">
+<h1 class="page-header">{{ 'Post'|trans }} {{ 'list'|trans }}</h1>
+
+<table class="records_list table table-bordered table-condensed table-striped">
     <thead>
         <tr>
-            <th>Id</th>
-            <th>Titulo</th>
-            <th>Post</th>
-            <th>Fechapublicacion</th>
+            <th>{{ 'Id'|trans }}</th>
+            <th>{{ 'Titulo'|trans }}</th>
+            <th>{{ 'Post'|trans }}</th>
+            <th>{{ 'Fechapublicacion'|trans }}</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -18,24 +21,23 @@
             <td>{{ entity.post }}</td>
             <td>{% if entity.fechaPublicacion %}{{ entity.fechaPublicacion|date('Y-m-d H:i:s') }}{% endif %}</td>
             <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('post_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('post_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
+                <a class="btn btn-mini" href="{{ path('post_show', { 'id': entity.id }) }}">
+                    <i class="icon-eye-open"></i>
+                    {{ 'show'|trans }}
+                </a>
+                <a class="btn btn-mini" href="{{ path('post_edit', { 'id': entity.id }) }}">
+                    <i class="icon-pencil"></i>
+                    {{ 'edit'|trans }}
+                </a>
             </td>
         </tr>
     {% endfor %}
     </tbody>
 </table>
 
-<ul>
-    <li>
-        <a href="{{ path('post_new') }}">
-            Create a new entry
-        </a>
-    </li>
-</ul>
+<a class="btn" href="{{ path('post_new') }}">
+    <i class="icon-plus"></i>
+    {{ 'create a new entry'|trans }}
+</a>
+
+{% endblock %}

@@ -1,6 +1,9 @@
-<h1>Category</h1>
+{% extends 'ToaTwitterBootstrapBundle::layout.html.twig' %}
+{% block content %}
 
-<table class="record_properties">
+<h1 class="page-header">{{ 'Category'|trans }}</h1>
+
+<table class="record_properties table table-bordered table-condensed table-striped">
     <tbody>
         <tr>
             <th>Id</th>
@@ -13,21 +16,24 @@
     </tbody>
 </table>
 
-<ul class="record_actions">
-    <li>
-        <a href="{{ path('category') }}">
-            Back to the list
+    <p>
+        <a class="btn" href="{{ path('category_edit', { 'id': entity.id }) }}">
+            <i class="icon-pencil"></i>
+            {{ 'edit'|trans }}
         </a>
-    </li>
-    <li>
-        <a href="{{ path('category_edit', { 'id': entity.id }) }}">
-            Edit
-        </a>
-    </li>
-    <li>
-        <form action="{{ path('category_delete', { 'id': entity.id }) }}" method="post">
-            {{ form_widget(delete_form) }}
-            <button type="submit">Delete</button>
-        </form>
-    </li>
-</ul>
+    </p>
+
+    <form action="{{ path('category_delete', { 'id': entity.id }) }}" method="post">
+        {{ form_widget(delete_form) }}
+        <button class="btn btn-danger" type="submit">
+            <i class="icon-trash"></i>
+            {{ 'delete'|trans }}
+        </button>
+    </form>
+
+    <a class="btn" href="{{ path('category') }}">
+        <i class="icon-th-list"></i>
+        {{ 'back to the list'|trans }}
+    </a>
+
+{% endblock %}

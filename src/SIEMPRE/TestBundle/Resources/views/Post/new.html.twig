@@ -1,16 +1,25 @@
-<h1>Post creation</h1>
+{% form_theme form 'ToaTwitterBootstrapBundle:Form:widgets.html.twig' %}
 
-<form action="{{ path('post_create') }}" method="post" {{ form_enctype(form) }}>
+{% extends 'ToaTwitterBootstrapBundle::layout.html.twig' %}
+{% block content %}
+
+<h1 class="page-header">{{ 'Post'|trans }} {{ 'creation'|trans }}</h1>
+
+<form class="form-horizontal" action="{{ path('post_create') }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
     <p>
-        <button type="submit">Create</button>
+        <button class="btn" type="submit">
+            <i class="icon-plus"></i>
+            {{ 'create'|trans }}
+        </button>
     </p>
 </form>
 
-<ul class="record_actions">
-    <li>
-        <a href="{{ path('post') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
+
+
+    <a class="btn" href="{{ path('post') }}">
+        <i class="icon-th-list"></i>
+        {{ 'back to the list'|trans }}
+    </a>
+
+{% endblock %}

@@ -11,3 +11,6 @@ siempre_test:
 #_internal:
 #    resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
 #    prefix:   /_internal
+
+fos_user:
+    resource: "@INHack20UserBundle/Resources/config/routing.yml"

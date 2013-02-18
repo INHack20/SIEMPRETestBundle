@@ -1,11 +1,14 @@
-<h1>Category list</h1>
+{% extends 'ToaTwitterBootstrapBundle::layout.html.twig' %}
+{% block content %}
 
-<table class="records_list">
+<h1 class="page-header">{{ 'Category'|trans }} {{ 'list'|trans }}</h1>
+
+<table class="records_list table table-bordered table-condensed table-striped">
     <thead>
         <tr>
-            <th>Id</th>
-            <th>Nombre</th>
-            <th>Actions</th>
+            <th>{{ 'Id'|trans }}</th>
+            <th>{{ 'Nombre'|trans }}</th>
+            <th>{{ 'Actions'|trans }}</th>
         </tr>
     </thead>
     <tbody>
@@ -14,24 +17,23 @@
             <td><a href="{{ path('category_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
             <td>{{ entity.nombre }}</td>
             <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('category_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('category_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
+                <a class="btn btn-mini" href="{{ path('category_show', { 'id': entity.id }) }}">
+                    <i class="icon-eye-open"></i>
+                    {{ 'show'|trans }}
+                </a>
+                <a class="btn btn-mini" href="{{ path('category_edit', { 'id': entity.id }) }}">
+                    <i class="icon-pencil"></i>
+                    {{ 'edit'|trans }}
+                </a>
             </td>
         </tr>
     {% endfor %}
     </tbody>
 </table>
 
-<ul>
-    <li>
-        <a href="{{ path('category_new') }}">
-            Create a new entry
-        </a>
-    </li>
-</ul>
+<a class="btn" href="{{ path('category_new') }}">
+    <i class="icon-plus"></i>
+    {{ 'create a new entry'|trans }}
+</a>
+
+{% endblock %}

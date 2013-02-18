@@ -1,22 +1,32 @@
-<h1>Post edit</h1>
+{% form_theme edit_form 'ToaTwitterBootstrapBundle:Form:widgets.html.twig' %}
 
-<form action="{{ path('post_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+{% extends 'ToaTwitterBootstrapBundle::layout.html.twig' %}
+{% block content %}
+
+<h1 class="page-header">{{ 'Post'|trans }} {{ 'edit'|trans }}</h1>
+
+<form class="form-horizontal" action="{{ path('post_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
     {{ form_widget(edit_form) }}
     <p>
-        <button type="submit">Edit</button>
+        <button class="btn" type="submit">
+            <i class="icon-pencil"></i>
+            {{ 'edit'|trans }}
+        </button>
     </p>
 </form>
 
-<ul class="record_actions">
-    <li>
-        <a href="{{ path('post') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <form action="{{ path('post_delete', { 'id': entity.id }) }}" method="post">
-            {{ form_widget(delete_form) }}
-            <button type="submit">Delete</button>
-        </form>
-    </li>
-</ul>
+
+    <form action="{{ path('post_delete', { 'id': entity.id }) }}" method="post">
+        {{ form_widget(delete_form) }}
+        <button class="btn btn-danger" type="submit">
+            <i class="icon-trash"></i>
+            {{ 'delete'|trans }}
+        </button>
+    </form>
+
+    <a class="btn" href="{{ path('post') }}">
+        <i class="icon-th-list"></i>
+        {{ 'back to the list'|trans }}
+    </a>
+
+{% endblock %}
